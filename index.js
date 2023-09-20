@@ -1,1 +1,4 @@
-alert('I am JS');
+'use strict' /* директива */
+
+alert('Hello, ');
+alert('world!'); 
