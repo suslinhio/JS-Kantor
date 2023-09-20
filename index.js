@@ -3,10 +3,8 @@
 */
 'use strict' 
 
-let admin;
-let name = 'Dima';
-admin = name;
-alert(admin);
+let ourPlanetName;
+let currenUserName;
 
 /* let user = 'Dima', age = 23, phrase = 'Hello!'; not recommended 
 
