@@ -1,50 +1,8 @@
 'use strict' 
 
-/* привіт 1
-привіт name
-привіт Ілля */
+alert('hello');
 
+let userName = prompt('What is your name?', 'Lox');
+alert(`Hello, ${userName}!`);
 
-/* 
-ТИПИ ДАНИХ:
-
-    - Тип number представляє і цілі числа, і числа з рухомою точкою. (+ Infinity, -Infinity і NaN)
-
-    - BigInt - числа за межами діапазону ±(2^53-1).Значення з типом BigInt створюється через додавання n у кінець цілого числа (const bigInt = 1234567890123456789012345678901234567890n;)
-
-    - Рядок (string) - Рядок у JavaScript має бути оточений лапками.
-
-    - Не має символьного типу данних (char)
-
-    - Булевий або логічний тип (boolean) 
-
-    - null - Спеціальне значення null не належить до жодного з описаних вище типів.
-
-    - undefined - undefined означає, що “значення не присвоєно”. Як правило, ми використовуємо null, щоби присвоїти змінній значення “порожнє” або “невідоме”, тоді як undefined зарезервоване для позначення початкового значення для неприсвоєних речей.
-
-    - object - Усі інші типи називаються “примітивами”. В об’єктах же зберігаються колекції даних і більш складні структури.
-
-    - symbol - Тип symbol використовується для створення унікальних ідентифікаторів в об’єктах. 
-
-ОПЕРАТОР typeof:
-
-    - Виклик typeof x повертає рядок із назвою типу
-
-    typeof undefined // "undefined"
-
-    typeof 0 // "number"
-
-    typeof 10n // "bigint"
-
-    typeof true // "boolean"
-
-    typeof "foo" // "string"
-
-    typeof Symbol("id") // "symbol"
-
-    typeof Math // "object"  (1)
-
-    typeof null // "object"  (2) - Результатом typeof null є "object". Це офіційно визнана помилка поведінки typeof, що є ще з ранніх днів JavaScript і зберігається для сумісності. 
-
-    typeof alert // "function"  (3)
-*/
+let someBear = confirm('Wonna some beer?');
