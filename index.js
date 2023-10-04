@@ -1,33 +1,29 @@
 'use strict' 
 
-// let value = true;
-// alert(typeof value);
+alert(2 + 2 + '1' ); // "41", а не "221"
+alert('1' + 2 + 2); // "122", а не "14"
 
-// value = String(value);
-// alert(typeof value);
+// ланцюгове присвоєння
 
-/* alert('6' / '3');
+let a, b, c;
 
-let string = '123';
-alert(typeof string);
+a = b = c = 2 + 2;
 
-string = Number(string);
-alert(typeof string);
+alert( a ); // 4
+alert( b ); // 4
+alert( c ); // 4
 
-Якщо рядок не є дійсним числом, результатом такого перетворення є NaN. */
-
-// let string = 'I dont know what to type';
-// string = Number(string);
-// alert(typeof string);
-// alert(string); // NaN
-
-// undefined -	NaN
-// null	- 0
-// true та false	- 1 та 0
-// string	Пробільні символи (пробіли, символи табуляції \t, символи нового рядку \n тощо) на початку та з кінця видаляються. Якщо рядок, що залишився в результаті, порожній, то результатом є 0. В іншому випадку число “читається” з рядка. Помилка дає NaN.
-
-// alert( Boolean(1) ); // true
-// alert( Boolean(0) ); // false
-
-// alert( Boolean("вітаю") ); // true
-// alert( Boolean("") ); // false
+"" + 1 + 0 // ' 10'
+"" - 1 + 0 // -1
+true + false // 1
+6 / "3" // 2
+"2" * "3" // 6
+4 + 5 + "px" // '9px'
+"$" + 4 + 5 // '$45'
+"4" - 2 // 2
+"4px" - 2 // NaN
+"  -9  " + 5 // ' -9 5' пробіли не будуть прибиратись
+"  -9  " - 5 // -14
+null + 1 // 1, налл стає 0
+undefined + 1 // NaN
+" \t \n" - 2 // -2 Символи пробілів по краях рядка ігноруються під час перетворення в число. Тому рядок, який містить лише символи \t, \n або «звичайні» пробіли, прирівнюється до пустого рядка і стає 0 після числового перетворення.
