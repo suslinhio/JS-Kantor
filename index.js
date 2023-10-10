@@ -1,124 +1,116 @@
 'use strict' 
 
-// Цикли: while і for
-
-// Цикл – це спосіб повторити один і той же код кілька разів.
-
-/* WHILE
-
-while (condition) {
-    loop body
-}
-
-*/
-
-/* let i = 0;
-
-while (i < 3) {
-    console.log(i);
-    i++;
-}
- */
-
-/* let i = 3;
-
-while (i) {
-    console.log(i);
-    i--;
-} */
-
-/* Цикл “do…while” 
-
-do {
-    loop body;
-} while (condition);
-
-Цю форму синтаксису слід використовувати лише тоді, коли ви хочете, щоб тіло циклу виконалось хоча б один раз, незалежно від умови.
-*/
+// Конструкція "switch"
 
 /* 
-Цикл “for”
+Syntax:
 
-for (initializing counter; condition; step) {
-    loop body;
+switch(x) {
+  case 'value1':  // if (x === 'value1')
+    ...
+    break;
+
+  case 'value2':  // if (x === 'value2')
+    ...
+    break;
+
+  case 'valuen':  // if (x === 'valuen')
+    ...
+    break;
+
+  default:
+    ...
 }
+
+!!!!!! Якщо строго рівне значення знайдено, то switch починає виконання коду із відповідного case до найближчого break або до кінця всієї конструкції switch. Тому важливо використовувати брейки!
 */
 
-/* for (let i = 0; i < 3; i++) {
-    console.log(i);
-} */
+/* let a = 2 + 3;
 
-/* 
-Continue
-
-Зупиняє поточну ітерацію і починає виконання циклу спочатку з наступної ітерації (якщо умова циклу досі вірна).
-
-*/
-
-/* for (let i = 0; i < 10; i++) {
-    if (i % 2) {
-        console.log(i)
+switch (a) {
+    case 1: {
+        console.log('One');
+        break;
     }
-} */
-
-/* for (let i = 0; i < 10; i++) {
-    if (i % 2 === 0) continue;
-    console.log(i); 
-} */
-
-// Мітки для break/continue
-
-/* 
-labelName: for (...) {
-  ...
-} 
-*/
-
-/* outer: 
-for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-        let input = prompt(`The coordinates are: ${i}, ${j}`);
-        if (!input) break outer;
+    case 2: {
+        console.log('Two');
+        break;
     }
+    case 3: {
+        console.log('Three');
+        break;
+    }
+    default: console.log('Fuck you!');
+} */
+
+/* let a = 2 + 3;
+
+switch (a) {
+    case 1:  // may be grouped. 
+    case 2:  // Можливість групування блоків case – це побічний ефект того, як switch/case працює без break. 
+    case 3:  // Необхідно наголосити, що перевірка відповідності є завжди строгою.
+    case 4:
+        {
+        console.log('Too little');
+        break;
+    }
+    case 5: {
+        console.log('Excellent');
+        break;
+    }
+    case 6: {
+        console.log('Too much');
+        break;
+    }
+    default: console.log('Fuck you!');
+} */
+
+// TASKS
+
+// 1. Перепишіть конструкцію "switch" в аналогічну з використанням "if"
+/* 
+switch (browser) {
+    case 'Edge':
+      alert( "You've got the Edge!" );
+      break;
+  
+    case 'Chrome':
+    case 'Firefox':
+    case 'Safari':
+    case 'Opera':
+      alert( 'Ми підтримуємо і ці браузери' );
+      break;
+  
+    default:
+      alert( 'Маємо надію, що ця сторінка виглядає добре!' );
+  } */
+
+  /* let browser = prompt('Insert your browser!');
+
+  if (browser === 'Edge') {
+    alert('I Hate Edge!');
+  } else if (browser === 'Chrome' || 
+             browser === 'Firefox' || 
+             browser === 'Safari' || 
+             browser === 'Opera') {
+                alert('These browsers are good!');
+            } else {
+                alert('What the fuck do you use?');
+            } */
+
+// Task 2 Перепишіть умови "if" в конструкцію "switch"
+
+let a = Number(prompt('a?', ''));
+
+switch (a) {
+    case 0:
+        alert('0');
+        break;
+    case 1:
+        alert('1');
+        break;
+    case 2:
+    case 3:
+        alert('2, 3');
+        break; // краще вказувати, щоб зробити надійнішим за умови змін
 }
-alert('Ready!'); */
-
-//TASKS
-
-/* let i = 0;
-while (++i < 5) alert( i ); // 1, 2, 3, 4
-
-let i = 0;
-while (i++ < 5) alert( i ); */ // 1, 2, ,3, 4, 5
-
-/* for (let i = 0; i < 5; i++) alert( i ); // 0, 1, 2, 3, 4
-for (let i = 0; i < 5; ++i) alert( i ); // 0, 1, 2, 3, 4
- */
-
-/* for (let i = 2; i < 11; i++) {
-    if (i % 2) continue;
-    console.log(i);
-} */
-
-/* let i = 0;
-while (i < 3) {
-    console.log(`Number ${i}!`);
-    i++;
-} */
-
-/* for (;;) {
-    let userNum = Number(prompt('Insert number over 100.'));
-    if (userNum > 100) break;
-} */
-
-/* let num = 100;
-outer:
-for (let i = 2; i <= num; i++) {
-    
-    for (let j = 2; j < i; j++) {
-        if (i % j === 0) continue outer;
-        
-    }
-
-    console.log(i);
-} */
