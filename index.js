@@ -1,59 +1,86 @@
 'use strict' 
 
-// Functions
-
-/* Arrow functions */
+// Automation testing
 
 /* 
+Керована поведінкою розробка (BDD) - і тести, і документація, і приклади використання.
+В BDD спочатку пишуть специфікацію, потім реалізацію. В результаті ми маємо і специфікацію, і код реалізації.
+
+Специфікацію можна використовувати трьома способами:
+
+Як Тести – вони гарантують, що код працює правильно.
+Як Документацію – назви describe та it описують, що робить функція.
+Як Приклади – тести – це фактично робочі приклади, що показують, як можна використовувати функцію.
+
+
 Syntax:
 
-let func = (args) => {
-    body;
-    return res;
-} 
+describe('funcName', function() {
 
-OR
-
-let func = (args) => expression;
-  
-
+    it('what is it doing', function() {
+        assert.equal(funcName(x, n), expectedResult);
+    });
+});
 */
 
-let sum = (a, b) => a + b;
+/* describe('pow', function() { // it-blocks written by hands
 
-/* 
-Якщо функція має лише один аргумент, тоді дужки навколо параметрів можна опускати, що дозволить записати її ще коротше.
-Якщо аргументів немає, то дужки порожні, але вони повинні бути:
-let func = () => expression;
-*/
+    it('pows 2 to 3', function() {
+        assert.equal(pow(2, 3), 8);
+    });
 
-let double = a => a * 2;
+    it('pows 3 to 4', function() {
+        assert.equal(pow(3, 4), 81);
+    });
+}); */
+describe('pow', function() {
+    describe('pows x to 3', function() { 
 
+        function makeTest(x) { // automatic creation of tests
+            let expected = x * x * x;
+            it(`${x} powed to 3 equals ${expected}`, function() {
+                assert.equal(pow(x, 3), expected);
+            });
+        }
 
-//TASKS
+        for (let i = 0; i < 20; i++) {
+            makeTest(i);
+        }
+    });
 
-// Перепишіть з використанням стрілкових функцій
+    describe('pows x to 2', function() { 
 
-/* function ask(question, yes, no) {
-  if (confirm(question)) yes();
-  else no();
-}
+        function makeTest(x) { 
+            let expected = x * x;
+            it(`${x} powed to 3 equals ${expected}`, function() {
+                assert.equal(pow(x, 2), expected);
+            });
+        }
 
-ask(
-  "Ви згодні?",
-  function() { alert("Ви погодились."); },
-  function() { alert("Ви скасували виконання."); }
-); */
+        for (let i = 0; i < 20; i++) {
+            makeTest(i);
+        }
+    });
 
+    describe('pows x to 4', function() { 
 
-function ask (question, yes, no) {
-    if (confirm(question)) {
-        yes();
-    } else {
-        no();
-    }
-}
+        function makeTest(x) { 
+            let expected = x * x * x * x;
+            it(`${x} powed to 3 equals ${expected}`, function() {
+                assert.equal(pow(x, 4), expected);
+            });
+        }
 
-ask('Want some sweets?',
-() => alert('You have agreed!'),
-() => alert('You have declined'));
+        for (let i = 0; i < 20; i++) {
+            makeTest(i);
+        }
+    });
+
+    it("для недійсних n результатом є NaN", function() {
+        assert.isNaN(pow(2, -1));
+      });
+    
+      it("для не цілих n результатом є NaN", function() {
+        assert.isNaN(pow(2, 1.5));
+      });
+});    
