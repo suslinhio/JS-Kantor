@@ -1,116 +1,86 @@
 'use strict' 
 
-// Конструкція "switch"
+// Functions
 
 /* 
-Syntax:
+Function declaration
 
-switch(x) {
-  case 'value1':  // if (x === 'value1')
-    ...
-    break;
-
-  case 'value2':  // if (x === 'value2')
-    ...
-    break;
-
-  case 'valuen':  // if (x === 'valuen')
-    ...
-    break;
-
-  default:
-    ...
+function newFunction (args) {
+    function body;
 }
 
-!!!!!! Якщо строго рівне значення знайдено, то switch починає виконання коду із відповідного case до найближчого break або до кінця всієї конструкції switch. Тому важливо використовувати брейки!
+Змінна, яка оголошена в функції доступна лише в тілі цієї функції. - local variable
+But, fункція може використовувати зовнішні змінні
+
+Зовнішня змінна використовується тоді, коли немає локальної. Якщо всередині функції є змінна з таким самим ім’ям, то вона перекриває зовнішню. 
+
+Ми можемо задати так зване “типове” значення параметра, яке використовуватиметься, якщо не задати аргумент. Для цього потрібно написати значення через =
+
+Функція з порожнім return, або без return повертає undefined
+
+Функції, які починаються з …
+
+"show" зазвичай щось показують.
+"get…" – повертають значення,
+"calc…" – щось обчислюють,
+"create…" – щось створюють,
+"check…" – щось перевіряють і повертають булеве значення.
+
 */
 
-/* let a = 2 + 3;
+/* function showMessage () {
+    let message = 'Hi, Yolop!'; //local variable
+    alert(message);
+}
 
-switch (a) {
-    case 1: {
-        console.log('One');
-        break;
-    }
-    case 2: {
-        console.log('Two');
-        break;
-    }
-    case 3: {
-        console.log('Three');
-        break;
-    }
-    default: console.log('Fuck you!');
-} */
+showMessage(); //works
+alert(message); // doest work */
 
-/* let a = 2 + 3;
+function showPrimes (n) {
+    for (let i = 2; i < n; i++) {
+        if (!isPrime(i)) continue;
+        console.log(i);
+    }
+} 
 
-switch (a) {
-    case 1:  // may be grouped. 
-    case 2:  // Можливість групування блоків case – це побічний ефект того, як switch/case працює без break. 
-    case 3:  // Необхідно наголосити, що перевірка відповідності є завжди строгою.
-    case 4:
-        {
-        console.log('Too little');
-        break;
+function isPrime (n) {
+    for (let j = 2; j < n; j++) {
+        if (n % j === 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    case 5: {
-        console.log('Excellent');
-        break;
-    }
-    case 6: {
-        console.log('Too much');
-        break;
-    }
-    default: console.log('Fuck you!');
-} */
+}
 
 // TASKS
 
-// 1. Перепишіть конструкцію "switch" в аналогічну з використанням "if"
-/* 
-switch (browser) {
-    case 'Edge':
-      alert( "You've got the Edge!" );
-      break;
-  
-    case 'Chrome':
-    case 'Firefox':
-    case 'Safari':
-    case 'Opera':
-      alert( 'Ми підтримуємо і ці браузери' );
-      break;
-  
-    default:
-      alert( 'Маємо надію, що ця сторінка виглядає добре!' );
-  } */
+// 1
+function checkAge(age) {
+    return (age > 18) ? true : confirm('Do you have permission?');
+    // return (age > 18) || confirm('Do you have permission?');
+  }
 
-  /* let browser = prompt('Insert your browser!');
+// 2
+function getMin (a, b) {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
 
-  if (browser === 'Edge') {
-    alert('I Hate Edge!');
-  } else if (browser === 'Chrome' || 
-             browser === 'Firefox' || 
-             browser === 'Safari' || 
-             browser === 'Opera') {
-                alert('These browsers are good!');
-            } else {
-                alert('What the fuck do you use?');
-            } */
+// 3 Напишіть функцію pow(x, n), яка повертає число x, піднесене до степеня n. Інакше кажучи, множить число x саме на себе n разів і повертає результат.
 
-// Task 2 Перепишіть умови "if" в конструкцію "switch"
+/* function pow(x, n) {
+    return x**n;
+} */
 
-let a = Number(prompt('a?', ''));
+function pow(x, n) {
+    let result = x;
 
-switch (a) {
-    case 0:
-        alert('0');
-        break;
-    case 1:
-        alert('1');
-        break;
-    case 2:
-    case 3:
-        alert('2, 3');
-        break; // краще вказувати, щоб зробити надійнішим за умови змін
+    for (let i = 1; i < n; i++) {
+        result *= x;
+    }
+
+    return result;
 }
