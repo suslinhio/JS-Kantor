@@ -2,28 +2,51 @@
 
 // Functions
 
-/* Function expression */
+/* Arrow functions */
 
 /* 
 Syntax:
 
-let variable = function(args) {
-    function body;
-}
+let func = (args) => {
+    body;
+    return res;
+} 
 
-Функціональний Вираз буде створено тільки тоді, коли до нього дійде виконання і тільки після цього він може бути використаний.
+OR
 
-
-Ще однією особливістю Оголошення Функції на відміну від Функціонального виразу є її блокова область видимості. У суворому режимі, якщо Оголошення Функції знаходиться в блоці {...}, то функція доступна усюди всередині блоку. Але не зовні.
+let func = (args) => expression;
+  
 
 */
+
+let sum = (a, b) => a + b;
 
 /* 
-Колбеки (функції зворотного виклику) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+Якщо функція має лише один аргумент, тоді дужки навколо параметрів можна опускати, що дозволить записати її ще коротше.
+Якщо аргументів немає, то дужки порожні, але вони повинні бути:
+let func = () => expression;
 */
 
-function ask(question, yes, no) { // typical func to show modal window
+let double = a => a * 2;
+
+
+//TASKS
+
+// Перепишіть з використанням стрілкових функцій
+
+/* function ask(question, yes, no) {
+  if (confirm(question)) yes();
+  else no();
+}
+
+ask(
+  "Ви згодні?",
+  function() { alert("Ви погодились."); },
+  function() { alert("Ви скасували виконання."); }
+); */
+
+
+function ask (question, yes, no) {
     if (confirm(question)) {
         yes();
     } else {
@@ -31,13 +54,6 @@ function ask(question, yes, no) { // typical func to show modal window
     }
 }
 
-function yes () {
-    alert('You have agreed!');
-}
-
-function no () {
-    alert('You have declined...');
-}
-
-// ask('Wonna enter?', yes, no);
-// Аргументи showOk та showCancel функції ask називаються функціями зворотного виклику або просто колбеками.
+ask('Want some sweets?',
+() => alert('You have agreed!'),
+() => alert('You have declined'));
