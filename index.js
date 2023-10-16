@@ -1,54 +1,50 @@
 'use strict' 
 
-// Методи об’єкту, "this"
+// Конструктори, оператор "new"
 
 /* 
-Функція, яка є властивістю об’єкта, називається його методом.
+Технічно, функції-конструктори – це звичайні функції. Однак є дві загальні домовленості:
 
-Як правило, метод об’єкта повинен отримувати доступ до інформації, що зберігається в об’єкті, для виконання своєї роботи.
+Ім’я функції-конструктора повинно починатися з великої літери.
+Функції-конструктори повинні виконуватися лише з оператором "new".
 */
-let user = {
-    name: 'Dima',
-    age: 23,
+
+/* 
+// створити функцію і негайно викликати її за допомогою new
+let user = new function() {
+  this.name = "Джон"; 
+  this.isAdmin = false;
+
+  // ...інший код для створення користувача
+  // можливо складна логіка та інструкції
+  // локальні змінні тощо
+};
+
+Одноразово для створення складного обєкта.
+*/
+
+// Task
+//1
+function Calculator() {
+    this.read = function() {
+        this.a = Number(prompt('Insert first number!'));
+        this.b = Number(prompt('Insert second number!'));
+    };
+    this.mul = function() {
+        return a * b;
+    };
+    this.sum = function() {
+        return a + b;
+    };
 }
 
-user.sayHi = function () {
-    console.log(`${user.name} says 'Hi!' to you!`);
+//2
+function Accumulator(startingValue = 10) {
+    this.value = startingValue;
+    this.read = function() {
+        let adder = Number(prompt('Insert number.'));
+        return this.value += adder;
+    };
 }
 
-// Стрілочні функції не мають “this”
-
-// Tasks
-
-//Creat obj calculator
-
-const calculator = {
-    read() {
-        this.a = Number(prompt('Insert first number.'));
-        this.b = Number(prompt('Insert second number.'));
-    },
-    sum() {
-        return this.a + this.b;
-    },
-    mul() {
-        return this.a * this.b;
-    },
-}
-
-//Chaining
-
-const ladder = {
-    step: 0,
-    up() {
-        this.step++;
-        return this;
-    },
-    down() {
-        this.step--;
-        return this;
-    },
-    showStep() {
-        console.log(this.step);
-        return this;
-    },
-}
+const accumulator1 = new Accumulator();
