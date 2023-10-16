@@ -1,50 +1,34 @@
 'use strict' 
 
-// Конструктори, оператор "new"
+// Опціональний ланцюжок '?.'
 
-/* 
-Технічно, функції-конструктори – це звичайні функції. Однак є дві загальні домовленості:
+let user = {}; // no adress property
 
-Ім’я функції-конструктора повинно починатися з великої літери.
-Функції-конструктори повинні виконуватися лише з оператором "new".
+//alert(user.adress.street); //Error
+
+// possible solution
+alert(user.adress ? user.adress.street : undefined); // or if, but its against DRY
+// Якщо вкладених властивостей ще більше, тобто вони лежать глибше, то код стає виглядати зовсім страшно
+
+// && may be used more effectively
+
+alert(user.adress && user.adress.street && user.adress.street.name); // but it still duplicates...
+
+// Optional chaining ?. is the answer
+// Якщо значення є undefined або null - припиняє обчислення та повертає undefined
+
+/* Іншими словами, value?.prop:
+
+працює як value.prop, якщо value існує,
+інакше (коли value є undefined/null) воно повертає undefined. 
+
+- може використовуватися і для видалення властивостей обєкта через delete
+- для звернення до властивості через []
+- для виклику методу чи функції, якщо вона існує
+- НЕ МОЖЕ використовуватися для присвоєння, викликає синтаксичну помилку
 */
 
-/* 
-// створити функцію і негайно викликати її за допомогою new
-let user = new function() {
-  this.name = "Джон"; 
-  this.isAdmin = false;
+alert(user?.adress?.street);
 
-  // ...інший код для створення користувача
-  // можливо складна логіка та інструкції
-  // локальні змінні тощо
-};
 
-Одноразово для створення складного обєкта.
-*/
 
-// Task
-//1
-function Calculator() {
-    this.read = function() {
-        this.a = Number(prompt('Insert first number!'));
-        this.b = Number(prompt('Insert second number!'));
-    };
-    this.mul = function() {
-        return a * b;
-    };
-    this.sum = function() {
-        return a + b;
-    };
-}
-
-//2
-function Accumulator(startingValue = 10) {
-    this.value = startingValue;
-    this.read = function() {
-        let adder = Number(prompt('Insert number.'));
-        return this.value += adder;
-    };
-}
-
-const accumulator1 = new Accumulator();
