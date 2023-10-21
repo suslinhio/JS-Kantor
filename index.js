@@ -1,132 +1,333 @@
 'use strict' 
 
-// Arrays
+// Array Methods
 
-let fruits = ['Apple', 'Orange', 'Plum'];
+/* Додавання/видалення елементів 
 
-// Щоб звернутися до останнього елементу є два варіанти
-// 1
-console.log(fruits[fruits.length - 1]);
-// 2
-console.log(fruits.at(-1));
-
-/* 
-Stack - LIFO (з англ. Last-In-First-Out, “останій прийшов – перший пішов”)
-Queu - FIFO (з англ. First-In-First-Out, “перший прийшов – перший пішов”)
-Масиви у JS -  двобічна черга(елементи можна додавати і вадаляти як на початку, так і вкінці).
+array.push(items) - add last elem
+array.pop() - delete last elem
+array.shift() - delete first elem
+array.unshift(items) - add first elem
 */
 
-// pop() - Видаляє останній елемент масиву та повертає його
+const trainingArray = [1, 2, 4, 20, 44, 4, 34, 23, 0, 90, 56, 5, 11];
 
-console.log(fruits.pop()); // 'Plum'
-console.log(fruits); // ['Apple', 'Orange']
+// array.splice(start, numberOfElemsToDelete, addElem1, addElem2, ...) returns deleted elems
 
-// push(elem) - Додає елементи в кінець масиву, повертає його нову довжину
-console.log(fruits.push('Cherry')); // 3
-console.log(fruits); //  ['Apple', 'Orange', 'Cherry']
+console.log(trainingArray.splice(3, 2, 100, 101, 'hello')); //[1, 2, 4, 100, 101, 'hello', 4, 34, 23, 0, 90, 56, 5, 11]
 
-// shift() - Видаляє перший елемент з масиву та повертає його
-console.log(fruits.shift()); // 'Apple'
-console.log(fruits); // ['Orange', 'Cherry']
+// array.slice(start, end) - не мутує початковий масив
 
-// unshift() - Додає елементи в початок масиву, повертає його нову довжину
-console.log(fruits.unshift('Peach')); // 3
-console.log(fruits); //['Peach', 'Orange', 'Cherry']
+console.log(trainingArray.slice(5, 10));
 
-// for .. of array loop // в 10 - 100 разів швидше за for .. in
+// array.concat(array2) - повертає новий масив, зклеєний з двох
 
-for (let fruit of fruits) {
-    console.log(fruit);
+const arrayToConcat = ['I', 'am', 'genius'];
+
+const concatedArray = trainingArray.concat(arrayToConcat);
+console.log(concatedArray);
+
+// array.forEach(func) - виконує функцію для кожного елемента
+// Результат функції (якщо вона взагалі щось повертає) відкидається і ігнорується.
+
+/* trainingArray.forEach(alert); */
+
+/* 
+Пошук в масиві
+
+array.indexOf(elem, index) - шукає item, починаючи з індексу from, і повертає індекс, на якому був знайдений шуканий елемент, в іншому випадку -1.
+
+array.lastIndexOf(elem, index) - такий самий, як indexOf, але шукає справа наліво.
+
+array.includes(elem, index) - шукає item, починаючи з індексу from, і повертає true, якщо пошук успішний.
+
+array.find(function(item, index, array) { - шукає саме перший елемент
+
+})
+
+array.findIndex(function(item, index, array) { - теж саме але повертає індекс
+
+})
+
+array.findLastIndex(function(item, index, array) { - теж саме але шукає з кінця
+
+})
+
+arra.filte(function(item, index, array) { - повертає масив з відфільтрованих елементів
+
+})
+*/
+
+let foundItem = trainingArray.find(item => item === 'hello');
+console.log(foundItem);
+
+let foundIndex = trainingArray.findIndex(item => item === 'hello');
+console.log(foundIndex);
+
+const users = [
+    {id: 1, name: "John"},
+    {id: 2, name: "Pete"},
+    {id: 3, name: "Bob"},
+    {id: 4, name: "Mary"},
+    {id: 5, name: "Pete"},
+    {id: 6, name: "Bob"},
+    {id: 7, name: "Skyler"},
+  ];
+
+const filteredUsers = users.filter(item => item.name === 'Bob');
+console.log(filteredUsers);
+
+/* 
+Перетворення масиву
+
+array.map(function(item, index, array) {
+
+}) - Він викликає функцію для кожного елемента масиву і повертає масив результатів виконання цієї функції. Не мутує початковий масив!
+
+array.sort(fn) - сортує масив, мутує початковий, за замовчуванням елементи порівнюються як рядки!!!
+Тому треба використовувати функцію КОМПАРАТОР
+
+array.reverse() - мутує початковий масив у зворотній
+
+split(delim) - повертає масив з рядка, виокремлюючи елементи між вказаним delim
+
+array.join(glue) - навпаки склеює масив, вставляючи glue між елементами
+
+array.reduce(fn(accumulator, item, index, array)) - обчислює елементи масива
+*/
+
+const names = ["Bilbo", "Gandalf", "Nazgul"];
+const namesLength = names.map(item => item.length);
+console.log(namesLength);
+
+/* function comparator(a, b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+    if (a === b) return 0;
+} */
+
+function comparator(a, b) {
+    return a - b;
 }
 
-// Отож, найпростіший метод очистки масиву це: arr.length = 0;.
+trainingArray.sort(comparator);
 
-//new Array(number) - створює порожній масив відповідної довжени
+// trainingArray.sort((a, b) => a - b)
+console.log(trainingArray);
 
-// toString(array) - повертає рядокз елементів, які розділені комою
-console.log(fruits.toString()); //Peach,Orange,Cherry
+let contactNames = 'Ihor, Dima, Artem, Yasya, Zhenya, Pupyrka';
 
-//TAsks
-// 1 
-// Створіть масив styles з елементами “Jazz” та “Blues”.
-// Додайте “Rock-n-Roll” в кінець масиву.
-// Замініть значення в середині масиву на “Classics”. Ваш код для пошуку медіанного елемента має працювати для будь-яких масивів непарної довжини.
-// Видаліть перший елемент масиву та покажіть його.
-// Вставте Rap та Reggae на початок масиву.
+const contactsArray = contactNames.split(', ');
+console.log(contactsArray);
+
+let sumOfTrainingArray = trainingArray.reduce((sum, item) => sum + item);
+console.log(sumOfTrainingArray);
+
+/* 
+Array.isArray(value) - перевіряє чи є обєкт масивом, повертає булеве значення
+*/
+
+console.log(Array.isArray(trainingArray)); //true
+
+// Tasks
+
+//1 
+/* апишіть функцію camelize(str), яка перетворює такі рядки “my-short-string” в “myShortString”.
+
+Тобто дефіси видаляються, а всі слова після них починаються з великої літери. */
+
+function camelize(str) {
+    return str.split('-').map( (item, index) => (index === 0) ? item : item[0].toUpperCase() + item.slice(1)).join('');
+}
 
 //2
-const styles = ['Jazz', 'Blues'];
-styles.push('Rock-n-Roll');
-styles[Math.floor((styles.length - 1) / 2)] = 'Classics';
-console.log(styles.shift());
-styles.unshift('Rap', 'Raggie');
+/* Напишіть функцію filterRange(arr, a, b), яка приймає масив arr, шукає в ньому елементи більші-рівні a та менші-рівні b і віддає масив цих елементів.
+
+Функція повинна повертати новий масив і не змінювати вихідний. */
+
+function filterRange(array, a, b) {
+    return array.filter(item => (item >= a && item <= b));
+}
+
+const arr = [5, 3, 8, 1];
 
 //3
-/* Напишіть функцію sumInput() яка:
 
-Просить користувача ввести дані за допомогою prompt та зберігає їх в масив.
-Закінчує робити запити в користувача після того, як введено не числове значення, порожня строка або натиснуто “відмінити”.
-Підраховує та повертає суму елементів масиву.
-P.S. Нуль 0 це – валідне число, будь ласка, не зупиняйте функцію при введені 0. */
+/* Напишіть функцію filterRangeInPlace(arr, a, b), яка приймає масив arr і видаляє з нього всі значення крім тих, які знаходяться між a і b. Тобто, перевірка має вигляд a ≤ arr[i] ≤ b.
 
-function sumInput() {
-    const inputsArray = [];
-    while (true) {
-        let elem = Number(prompt('Insert a number'));
-        if (!isFinite(elem) || elem === '' || elem === null) break;
-        inputsArray.push(elem);
+Функція повинна змінювати поточний масив і нічого не повертати. */
+
+function filterRangeInPlace(array, a, b) {
+    for (let i = 0; i < array.length; i++) {
+        let value = array[i];
+
+        if (value < a || value > b) {
+            array.splice(i, 1);
+            i--;
+        }
     }
-
-    let sum = 0;
-    for (element of array) {
-        sum += element;
-    }
-
-    return sum;
 }
 
 //4
-/* На вході масив чисел, наприклад arr = [1, -2, 3, 4, -9, 6].
+//Сортувати за спаданням array
+let arr1 = [5, 2, 1, -10, 8];
 
-Завдання: знайти неперервний підмасив arr з максимальною сумою елементів.
+arr1.sort((a, b) => b - a);
 
-Написати функцію getMaxSubSum(arr) яка повертає таку суму.
+console.log(arr1);
 
-Наприклад: 
+//5
+// У нас є масив рядків arr. Потрібно отримати відсортовану копію та залишити arr незміненим.
+// Створіть функцію copySorted(arr), яка буде повертати таку копію.
 
-getMaxSubSum([-1, 2, 3, -9]) == 5 (the sum of highlighted items)
-getMaxSubSum([2, -1, 2, 3, -9]) == 6
-getMaxSubSum([-1, 2, 3, -9, 11]) == 11
-getMaxSubSum([-2, -1, 1, 2]) == 3
-getMaxSubSum([100, -9, 2, -3, 5]) == 100
-getMaxSubSum([1, 2, 3]) == 6 (take all)*/
+function copySorted(arr) {
+    return arr.slice().sort();
+}
 
-// - Approach 1 O(n^2) Time Solution(quadratic time)
+//6
 
-/* function getMaxSubSum(array){
-    let maxSum = 0;
+function Calculator() {
+    this.methods = {
+        '+': (a, b) => a + b,
+        '-': (a, b) => a - b,
+    }
+    this.calculate = function(string) {
+        const array = string.split(' ');
+        let a = Number(array[0]);
+        let b = Number(array[2]);
+        let operator = array[1];
 
-    for (let i = 0; i < array.length; i++) {
-        let maxSubarrayStart = 0;
-        for (let j = i; j < array.length; j++) {
-            maxSubarrayStart += array[j];
-            maxSum = Math.max(maxSubarrayStart, maxSum);
+        if (!this.methods[operator] || isNaN(a) || isNaN(b)) {
+            return console.log('Misatke!');
+        }
+
+        return this.methods[operator](a, b);
+    }
+    this.addMethod = function(name, func) {
+        this.methods[name] = func;
+    }
+}
+
+const newCalc = new Calculator();
+
+//7
+//У вас є масив об’єктів user, і в кожному з них є user.name. Напишіть код, який перетворює їх в масив імен.
+
+/* const ivan = { name: "Іван", age: 25 };
+const petro = { name: "Петро", age: 30 };
+const mariya = { name: "Марія", age: 28 };
+
+const usersArr = [ ivan, petro, mariya ]; */
+
+/* const usersNamesArr = usersArr.map(function(currentUser) {
+    return currentUser.name;
+}) */
+//arrow
+
+// const usersNamesArr = usersArr.map(currentUser => currentUser.name);
+
+//8
+//У вас є масив обʼєктів user, і у кожного з обʼєктів є name, surname та id.
+// Напишіть код, який створить ще один масив обʼєктів з параметрами id й fullName, де fullName – складається з name та surname.
+
+/* const ivan = { name: "Іван", surname: "Іванко", id: 1 };
+const petro = { name: "Петро", surname: "Петренко", id: 2 };
+const mariya = { name: "Марія", surname: "Мрійко", id: 3 };
+
+const usersArr = [ ivan, petro, mariya ];
+
+const usersIdAndFullnamesArr = usersArr.map(currentUser => {
+    return {
+        id: currentUser.id,
+        fullname: `${currentUser.name} ${currentUser.surname}`
+    };
+}); */
+
+//9
+// Напишіть функцію sortByAge(users), яка приймає масив обʼєктів з властивістю age і сортує їх по ньому.
+
+let ivan = { name: "Іван", age: 25 };
+let petro = { name: "Петро", age: 30 };
+let mariya = { name: "Марія", age: 28 };
+
+let array = [ petro, ivan, mariya ];
+
+function sortByAge(users) {
+    return users.sort((u1, u2) => u1.age - u2.age);
+}
+
+//10
+// Напишіть функцію shuffle(array), яка перемішує (випадковим чином переставляє) елементи масиву.
+// Багаторазові прогони через shuffle можуть привести до різних послідовностей елементів. 
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+} 
+
+const numsArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+//11
+//Напишіть функцію getAverageAge(users), яка приймає масив об’єктів з властивістю age та повертає середній вік.
+// Формула обчислення середнього арифметичного значення: (age1 + age2 + ... + ageN) / N.
+
+const john = { name: "John", age: 25 };
+const pete = { name: "Pete", age: 30 };
+const mary = { name: "Mary", age: 29 };
+
+const arrayOfAmericans = [ john, pete, mary ];
+
+function getAverageAge(users) {
+    return users.reduce((accum, currentUser) => accum + currentUser.age, 0) / users.length;
+}
+
+//12
+// Нехай arr – масив рядків.
+// Напишіть функцію unique(arr), яка повертає масив, що містить тільки унікальні елементи arr.
+
+const repeatingArr = ["Привіт", "Світ", "Привіт", "Світ",
+  "Привіт", "Привіт", "Світ", "Світ", ":-O"
+];
+
+function uniqueArr(arr) { //May be refactored with map and set
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (!res.includes(arr[i])) {
+            res.push(arr[i]);
         }
     }
+    return res;
+}
 
-    return maxSum;
-} */
+//13
+/* Припустимо, ми отримали масив користувачів у вигляді {id:..., name:..., age:...}.
 
-// Approuch 2 O(n) - linear time
+Створіть функцію groupById(arr), яка створює з масиву об’єкт із ключом id та елементами масиву як значеннями. */
 
-function getMaxSubSum(array) {
-    let maxSum = 0;
-    let partialSum = 0;
-
-    for (let i = 0; i < array.length; i++) {
-        partialSum = Math.max(partialSum + array[i], array[i]);
-        maxSum = Math.max(partialSum, maxSum);
+let arrOfUsers = [
+    {id: 'іван', name: "Іван Іванко", age: 20},
+    {id: 'ганна', name: "Ганна Іванко", age: 24},
+    {id: 'петро', name: "Петро Петренко", age: 31},
+  ];
+  
+/* function groupById(arr) { //My solution
+    const groupedObj = {};
+    
+    for (let i = 0; i < arr.length; i++) {
+        groupedObj[arrOfUsers[i].id] = arrOfUsers[i];
     }
 
-    return maxSum;
+    return groupedObj;
+} */
+
+//solution with reduce
+
+function groupById(arr) {
+    return arr.reduce((obj, currentUser) => {
+        obj[currentUser.id] = currentUser;
+        return obj;
+    }, {});
 }
