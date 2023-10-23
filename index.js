@@ -1,70 +1,72 @@
 'use strict' 
 
-// WeakMap та WeakSet
-
-/* якщо ми використовуємо об’єкт як ключ у звичайному Map, то в той час, коли Map існує, цей об’єкт також існує. Він займає пам’ять і не може бути видалений збирачем сміття. */
-
-/* let john = { name: "Іван" };
-
-let map = new Map();
-map.set(john, "...");
-
-john = null;
-
-map.keys(); //існує */
-
-/* WeakMap – принципово відрізняється в цьому аспекті. Він не перешкоджає збиранню сміття серед об’єктів, що є ключами.
-
-- у weakMap ключами повинні бути ТІЛЬКИ обєкти
-- у weakMap відсутні властивості keys(), values(), entries()
-
-WeakMap має лише такі методи:
-
-weakMap.set(key, value)
-weakMap.get(key)
-weakMap.delete(key)
-weakMap.has(key)
-
-Основна область застосування для WeakMap – це зберігання додаткових даних.
-Іншим загальним прикладом є кешування. В обох випадках, коли обєкт видалиться то кеш і додаткові даня теж видаляться, а якби  ми використовували звичайний Map, то вони б продовжували зберігатись та займати память.
-*/
-
-let john = { name: "Іван" };
-
-let weakMap = new WeakMap();
-weakMap.set(john, "...");
-
-john = null;
-
-console.log(weakMap); //deleted
-
+// Object.keys, values, entries
 
 /* 
-WeakSet
+Методи keys(), values(), entries() підтримуються для:
 
-WeakSet поводитися аналогічно:
+- Map
+- Set
+- Arrays
 
-Це аналог Set, але ми можемо додати лише об’єкти до WeakSet (не примітиви).
-Об’єкт існує в наборі, коли він доступний з де-небудь ще.
-Так само як Set, він підтримує add, has і delete, але не підтримує size, keys() та ітерацію.
+Звичайні об’єкти також підтримують подібні методи, але синтаксис дещо інший.
+
+Object.keys(obj) - повертає масив ключів.
+Object.values(obj) - повертає масив значень.
+Object.entries(obj) - повертає масив пар.
 */
 
-//Tasks
+/* У об’єктів немає багатьох методів, які є у масивів, наприклад map, filter та інші.
 
-//1 
+Якщо б ми хотіли їх застосувати, тоді б ми використовували Object.entries з подальшим викликом Object.fromEntries:
 
-const messages = [
-    {text: "Привіт", from: "Іван"},
-    {text: "Як справи?", from: "Іван"},
-    {text: "До зустрічі", from: "Аліса"}
-];
+Викликаємо Object.entries(obj), щоб отримати масив пар ключ/значення з obj.
+На ньому використовуємо методи масиву, наприклад map, щоб перетворити ці пари ключів/значень.
+Використаємо Object.fromEntries(array) на отриманому масиві, щоб перетворити його знову на об’єкт. */
 
-const readMess = new WeakSet();
-for (let i = 0; i < messages.length; i++) {
-    readMess.add(messages[i]);
+// task double the prices
+
+const prices = {
+    banana: 1,
+    orange: 2,
+    meat: 4,
+};
+
+function doublePrices(obj) {
+    return Object.fromEntries(Object.entries(obj).map(entry => [entry[0], entry[1] * 2]));
 }
 
-//2
+//Task 2
+/* Є об’єкт salaries з довільною кількістю властивостей, що містять заробітні плати.
 
-const dateOfRead = new WeakMap();
-dateOfRead.set(messages[0], new Date(2023, 23, 10));
+Напишіть функцію sumSalaries(salaries), що повертає суму всіх зарплат за допомогою Object.values та циклуfor..of.
+
+Якщо об’єкт salaries порожній, тоді результат повинен бути 0. */
+
+const salaries = {
+    "Іван": 100,
+    "Петро": 300,
+    "Марія": 250
+};
+
+function sumSalaries(obj) {
+    /* let sum = 0;
+    for (let key of Object.values(obj)) {
+        sum += key;
+    }
+
+    return sum; */
+    return Object.values(obj).reduce((accum, salarie) => accum + salarie, 0);
+}
+
+//Task 3
+/* Напишіть функцію count(obj), що повертає кількість властивостей об’єкта: */
+
+let user = {
+    name: 'Іван',
+    age: 30
+};
+
+function count(obj) {
+    return Object.keys(obj).length;
+}
