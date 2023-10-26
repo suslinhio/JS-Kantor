@@ -1,101 +1,215 @@
 'use strict' 
 
-// Методи JSON, toJSON
+// Рекурсія та стек
 
-/* 
-JSON (JavaScript Object Notation) – це загальний формат, який представляє значення та об’єкти.
-*/
+//Рекурсія - це коли функція викликає саму себе
 
-//JSON.stringify - перетворює обєкт в JSON-рядок
+//Iterative aproach to pow
 
-const user = {
-  name: 'Dima',
-  age: 23,
-  isAdmin: true,
-  courses: ['pm', 'html', 'css', 'js'],
-  spouce: null,
+function pow(num1, num2) {
+  let res = 1;
+  for (let i = 0; i < num2; i++) {
+    res *= num1;
+  }
+  return res;
 }
 
-let jsonString = JSON.stringify(user); //Отриманий json рядок називається JSON-кодованим або серіалізованим об’єктом. Все обертається в подвійні лапки.
-console.log(typeof jsonString);// string
-console.log(jsonString); //{"name":"Dima","age":23,"isAdmin":true,"courses":["pm","html","css","js"],"spouce":null}
+//Recursive aproach
 
-/* 
-Ігнорує:
+// function recursivePow(num1, num2) {
+//   if (num2 === 1) {
+//     return num1;
+//   } else {
+//     return num1 * recursivePow(num1, num2 - 1);
+//   }
+// }
+//Shorten it using ternarnik
 
-Функціональні властивості (методи).
-Символьні ключі та значення.
-Властивості, що мають undefined.
-*/
-const user2 = {
-  sayHi() { // ігнорується
-    alert("Привіт");
-  },
-  [Symbol("id")]: 123, // ігнорується
-  something: undefined // ігнорується
+function recursivePow(num1, num2) {
+  return (num2 === 1) ? num1 : (num1 * recursivePow(num1, num2 -1));
+}
+
+/* Рекурсивний обхід */
+
+let company = {
+  sales: [{
+    name: 'Іван',
+    salary: 1000
+  }, {
+    name: 'Аліса',
+    salary: 1600
+  }],
+
+  development: {
+    sites: [{
+      name: 'Петро',
+      salary: 2000
+    }, {
+      name: 'Олександр',
+      salary: 1800
+    }],
+
+    internals: [{
+      name: 'Евген',
+      salary: 1300
+    }]
+  }
 };
 
-let jsonCheck = JSON.stringify(user2);
-console.log(jsonCheck); //empty string
-
-//вкладені об’єкти підтримуються та перетворюються автоматично.
-let doubleObj = {
-  prop1: 'name',
-  prop2: [1, 2, 3],
-  prop3: {
-    prop4: 'someProp',
-    prop5: true,
-  },
+function recursiveSearch(department) {
+  if (Array.isArray(department)) {
+    return department.reduce((accum, worker) => accum + worker.salary, 0);
+  } else {
+    let sum = 0;
+    for (let subDepartment of Object.values(department)) {
+      sum += recursiveSearch(subDepartment);
+    }
+    return sum;
+  }
 }
 
-let objJson = JSON.stringify(doubleObj);
-console.log(objJson);
+//Linked list
 
-/* 
-Повний синтаксис json
+let myLinkedList = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null
+      }
+    }
+  }
+}
 
-JSON.stringify(value[, replacer, space])
+// Список можна легко розділити на декілька частин, а пізніше з’єднати знову:
 
-value - Значення для кодування.
-replacer - Масив властивостей для кодування або функція відображення function(key, value). Таким чином можна перечислити всі властивості крім циклічних посилань і уникнути помилки, яле вручну це довго, тому використовуємо func
-space - Кількість пробілів для форматування відображення вкладених обєктів
-*/
+const secondList = myLinkedList.next.next;
+myLinkedList.next.next = null;
 
-// toJason - метод, який можна прописати кожному обєкту (у дейт є вбудований власний), при вкилику stringify за наявності спочатку викликається toJason
+//Join
 
-//JSON.parse - перетворює JSON-рядок в обєкт
-//JSON.parse(str, [reviver]);
-//reviver - Необов’язкова функція, яка буде викликана для кожного (key, value) та може перетворювати значення.
+myLinkedList.next.next = secondList;
 
-const userFromJson = JSON.parse(jsonString);
-console.log(userFromJson);
+//Add new item in the beggining
+myLinkedList = {value: 'newItem', next: myLinkedList};
 
-//Tasks
+//Delete items from inside
+
+myLinkedList.next.next = myLinkedList.next.next.next; // другий елемент буде видалено, оскільки на нього ніхто не посилається
+
+//TAsks
 
 //1
-//Перетворіть user на JSON, після цього зробіть з нього знову об’єкт і запишіть його в іншу змінну.
+//Напишіть функцію sumTo(n), що обчислює суму чисел 1 + 2 + ... + n.
+//cicle
+function sumToNumCicle(num) {
+  let sum = 0;
+  for (let i = 1; i <= num; i++) {
+    sum += i;
+  }
+  return sum;
+}
 
-let user3 = {
-  name: "Іван Іванов",
-  age: 35
-};
+function sumToNumRec(num) {
+  if (num === 1) {
+    return 1;
+  } else {
+    return num + sumToNumRec(num - 1);
+  }
+}
 
-const user3FromJson = JSON.parse(JSON.stringify(user3));
+function sumToNumProg(num) {
+  return (1 + num) / 2 * num;
+}
 
 //2
-let room = {
-  number: 23
+//Завдання полягає в тому, щоб написати функцію factorial(n), яка обчислює n! за допомогою рекурсивних викликів.
+
+function fuctorial(num) {
+  return (num === 1) ? 1 : (num * fuctorial(num - 1));
+}
+
+//3
+//Напишіть функцію fib(n), яка повертає n-th число Фібоначчі.
+
+function fib(n) {
+  if (n === 1 || n === 2) {
+    return 1;
+  } else {
+    return fib(n - 1) + fib(n - 2);
+  }
+} //VERY slow
+
+function fastFib(n) {
+  let a = 1;
+  let b = 1;
+  
+  for (let i = 3; i <= n; i++) {
+    let c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}
+
+//4
+//Напишіть функцію printList(list), що виводить список елементів один за одним.
+
+let list = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null
+      }
+    }
+  }
 };
 
-let meetup = {
-  title: "Конференція",
-  occupiedBy: [{name: "Іван"}, {name: "Аліса"}],
-  place: room
-};
+function prinList(list) {
+  let tempo = list;
 
-room.occupiedBy = meetup;
-meetup.self = meetup;
+  while(tempo) {
+    console.log(list.value);
+    list = list.next;
+  }
+}
 
-let taskResolve = JSON.stringify(meetup, function replacer(key, value) {
-  return (kye !== '' && value === meetup) ? undefined : value;
-})
+function printListRec(list) {
+  console.log(list.value);
+  
+  if (list.next) {
+    printListRec(list.next);
+  }
+}
+
+//5
+//Виведіть одинозв’язаний список з попереднього завдання Вивести одинозв’язаний список у зворотному порядку.
+
+function printReverseRec(list) {
+  if (list.next) {
+    printReverseRec(list.next);
+  }
+
+  console.log(list.value);
+}
+
+function printReverseLoop(list) {
+  let tempo = list;
+  const arr = [];
+
+  while(tempo) {
+    arr.push(tempo.value);
+    tempo = tempo.next;
+  }
+
+  for (let i = arr.length - 1; i >= 0; i--) {
+    console.log(arr[i]);
+  }
+}
