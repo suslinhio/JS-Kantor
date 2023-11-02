@@ -1,15 +1,79 @@
 'use strict' 
 
-// Синтаксис "new Function"
+// Планування: setTimeout та setInterval
 
-/* Є ще один спосіб створити функцію. Він рідко використовується, але йому немає альтернативи.
-    
-Syntax
-let func = new Function ([arg1, arg2, ...argN], functionBody);
-Example:
-let sum = new Function('a', 'b', 'return a + b');
+/* 
+- setTimeout дозволяє нам запускати функцію один раз через певний інтервал часу.
+Syntax:
+let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 
-new Function дозволяє перетворити будь-який рядок у функцію. Наприклад, ми можемо отримати нову функцію з сервера, а потім виконати її
+- setInterval дозволяє нам запускати функцію багаторазово, починаючи через певний інтервал часу, а потім постійно повторюючи у цьому інтервалі. 
+Syntax:
 
-- envirinment буде глобальним => не має доступу до блочних змінних. Якби new Function мала доступ до зовнішніх змінних, то вона б мала проблеми з мініфікаторами.
 */
+
+function sayHi(phrase, name) {
+    console.log(`${phrase}, ${name}`);
+}
+
+let timerID = setTimeout(sayHi, 2000, 'Wassup', 'suslinhio');
+console.log(timerID);
+
+clearTimeout(timerID); //cancel timeout
+console.log(timerID);
+
+
+//setInterval
+
+// let timerId = setInterval(sayHi, 2000, 'Wassup', 'suslinhio');
+
+// setTimeout(() => { clearInterval(timerId); console.log('Stop'); }, 5000);
+
+
+//Вкладений setTimeout
+
+// function sayHiTimeOut() {
+//     console.log(`Hi, body!`);
+//     timerId = setTimeout(sayHiTimeOut, 2000);
+// }
+
+// let timerId = setTimeout(sayHiTimeOut, 2000);
+
+// Вкладений setTimeout дозволяє більш точно встановити затримку між виконанням, ніж setInterval. Вкладений setTimeout гарантує фіксовану затримку 
+
+//Tasks
+
+//1
+/* Напишіть функцію printNumbers(from, to) яка виводить число кожну секунду, починаючи від from і закінчуючи to.
+
+Зробіть два варіанти рішення.
+
+Використовуючи setInterval.
+Використовуючи вкладений setTimeout. */
+
+function printNumbersInterval(from, to) {
+    let current = from;
+
+    let timerId = setInterval(
+        function() {
+            console.log(current);
+            if (current === to) {
+                clearInterval(timerId);
+            }
+            current++;
+        }, 1000
+    );
+}
+
+function printNumbersTimeout(from, to) {
+    let current = from;
+
+    setTimeout( function tick() {
+            console.log(current);
+            if (current < to) {
+                setTimeout(tick, 1000);
+            }
+            current++;
+        }, 1000
+    );
+}
