@@ -1,79 +1,102 @@
 'use strict' 
 
-// Планування: setTimeout та setInterval
+// Декоратори та переадресація виклику, call/apply
 
-/* 
-- setTimeout дозволяє нам запускати функцію один раз через певний інтервал часу.
-Syntax:
-let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 
-- setInterval дозволяє нам запускати функцію багаторазово, починаючи через певний інтервал часу, а потім постійно повторюючи у цьому інтервалі. 
-Syntax:
+//Кешування для тяжких функцій за допомогою декоратора(спеціальна функція, яка бере іншу функцію і змінює її поведінку.)
 
-*/
-
-function sayHi(phrase, name) {
-    console.log(`${phrase}, ${name}`);
+function slow(x) {
+    //some really hard operations
+    console.log(`Called with ${x}`);
+    return x;
 }
 
-let timerID = setTimeout(sayHi, 2000, 'Wassup', 'suslinhio');
-console.log(timerID);
+function cachingDecorator(func) {
+    const cache = new Map();
 
-clearTimeout(timerID); //cancel timeout
-console.log(timerID);
+    return function(x) {
+        if (cache.has(x)) {
+            return cache.get(x);
+        } 
+
+        let res = func(x);
+
+        cache.set(x, res);
+        return res;
+    }
+} 
 
 
-//setInterval
+//Використання “func.call” для контексту
+// func.call(context, arg1, arg2) -- явно задає this для контексту виконання
 
-// let timerId = setInterval(sayHi, 2000, 'Wassup', 'suslinhio');
+const worker = {
+    someMethod() {
+        return 1;
+    },
 
-// setTimeout(() => { clearInterval(timerId); console.log('Stop'); }, 5000);
+    slow(x) {
+        console.log(`Called with ${x}`);
+        return x * this.someMethod(); // потрібно передати контекст виконання
+    }
+}
 
+function cachingDecorator2(func) {
+    const cache = new Map();
 
-//Вкладений setTimeout
+    return function(x) {
+        if (cache.has(x)) {
+            return cache.get(x);
+        }
 
-// function sayHiTimeOut() {
-//     console.log(`Hi, body!`);
-//     timerId = setTimeout(sayHiTimeOut, 2000);
-// }
+        let res = func.call(this, x);
+        cache.set(x, res);
+        return res;
+        
+    };
+}
 
-// let timerId = setTimeout(sayHiTimeOut, 2000);
-
-// Вкладений setTimeout дозволяє більш точно встановити затримку між виконанням, ніж setInterval. Вкладений setTimeout гарантує фіксовану затримку 
+worker.slow = cachingDecorator(worker, slow);
 
 //Tasks
 
 //1
-/* Напишіть функцію printNumbers(from, to) яка виводить число кожну секунду, починаючи від from і закінчуючи to.
+/* Створіть декоратор spy(func), який повинен повернути обгортку, яка зберігає всі виклики функції у властивості calls.
 
-Зробіть два варіанти рішення.
+Кожен виклик зберігається як масив аргументів. */
 
-Використовуючи setInterval.
-Використовуючи вкладений setTimeout. */
+function spy(func) {
+    function wrapper(...args) {
+        wrapper.calls.push(args);
+        return func.apply(this, args);
+    }
 
-function printNumbersInterval(from, to) {
-    let current = from;
-
-    let timerId = setInterval(
-        function() {
-            console.log(current);
-            if (current === to) {
-                clearInterval(timerId);
-            }
-            current++;
-        }, 1000
-    );
+    wrapper.calls = [];
+    return wrapper;
 }
 
-function printNumbersTimeout(from, to) {
-    let current = from;
-
-    setTimeout( function tick() {
-            console.log(current);
-            if (current < to) {
-                setTimeout(tick, 1000);
-            }
-            current++;
-        }, 1000
-    );
+function work(a, b) {
+    alert( a + b ); 
 }
+
+work = spy(work);
+
+// work(1, 10);
+// work(10, 20);
+
+// for (let key of work.calls) {
+//     console.log(key);
+// }
+
+//2
+/* Створіть декоратор delay(f, ms), яка затримує кожен виклик f на ms мілісекунд. */
+
+function delay(func, ms) {
+    return function() {
+        setTimeout(() => func.apply(this, arguments), ms);
+    }
+}
+
+// let f1000 = delay(alert, 1000);
+// f1000("тест");
+
