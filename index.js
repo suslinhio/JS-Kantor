@@ -1,102 +1,62 @@
 'use strict' 
 
-// Декоратори та переадресація виклику, call/apply
+// Прив’язка контексту до функції
 
+/*  Як уникнути втрати контексту:
 
-//Кешування для тяжких функцій за допомогою декоратора(спеціальна функція, яка бере іншу функцію і змінює її поведінку.)
+- обгортка, але вразливо, бо значення обєкта може змінитися поки виклик методу затримано
+- bind, зміни з часом не відбудеться, тому що bind посилається на обєкт в момент створення
+*/
 
-function slow(x) {
-    //some really hard operations
-    console.log(`Called with ${x}`);
-    return x;
-}
-
-function cachingDecorator(func) {
-    const cache = new Map();
-
-    return function(x) {
-        if (cache.has(x)) {
-            return cache.get(x);
-        } 
-
-        let res = func(x);
-
-        cache.set(x, res);
-        return res;
-    }
-} 
-
-
-//Використання “func.call” для контексту
-// func.call(context, arg1, arg2) -- явно задає this для контексту виконання
-
-const worker = {
-    someMethod() {
-        return 1;
-    },
-
-    slow(x) {
-        console.log(`Called with ${x}`);
-        return x * this.someMethod(); // потрібно передати контекст виконання
+//1 wrapper
+const user = {
+    name: 'Dima',
+    sayHi() {
+        console.log(`Hi, ${this.name}!`);
     }
 }
 
-function cachingDecorator2(func) {
-    const cache = new Map();
+setTimeout(function() { //wrapper
+    user.sayHi();
+}, 2000);
 
-    return function(x) {
-        if (cache.has(x)) {
-            return cache.get(x);
-        }
+//2 bind
+//let boundFunc = func.bind(context);
 
-        let res = func.call(this, x);
-        cache.set(x, res);
-        return res;
-        
-    };
-}
 
-worker.slow = cachingDecorator(worker, slow);
+const boundSayHi = user.sayHi.bind(user); //передаємо метод з контекстом
+setTimeout(boundSayHi, 1000);
+
 
 //Tasks
 
 //1
-/* Створіть декоратор spy(func), який повинен повернути обгортку, яка зберігає всі виклики функції у властивості calls.
+/* Виклик askPassword() в коді наведеному нижче повинен перевіряти пароль та викликати user.loginOk/loginFail в залежності від відповіді.
 
-Кожен виклик зберігається як масив аргументів. */
+Але виконання коду призводить до помилки. Чому?
 
-function spy(func) {
-    function wrapper(...args) {
-        wrapper.calls.push(args);
-        return func.apply(this, args);
-    }
+Виправте виділений рядок, щоб код запрацював правильно (інші рядки не мають бути змінені). */
 
-    wrapper.calls = [];
-    return wrapper;
-}
+function askPassword(ok, fail) {
+    let password = prompt("Пароль?", '');
+    if (password == "rockstar") ok();
+    else fail();
+  }
+  
+  const user2 = {
+    name: 'Іван',
+  
+    loginOk() {
+      alert(`${this.name} увійшов`);
+    },
+  
+    loginFail() {
+      alert(`${this.name} виконав невдалу спробу входу`);
+    },
+  
+  };
 
-function work(a, b) {
-    alert( a + b ); 
-}
-
-work = spy(work);
-
-// work(1, 10);
-// work(10, 20);
-
-// for (let key of work.calls) {
-//     console.log(key);
-// }
-
-//2
-/* Створіть декоратор delay(f, ms), яка затримує кожен виклик f на ms мілісекунд. */
-
-function delay(func, ms) {
-    return function() {
-        setTimeout(() => func.apply(this, arguments), ms);
-    }
-}
-
-// let f1000 = delay(alert, 1000);
-// f1000("тест");
-
+  const loginOk = user2.loginOk.bind(user2);
+  const loginFail = user2.loginFail.bind(user2);
+  
+  askPassword(loginOk, loginFail);
