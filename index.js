@@ -1,34 +1,66 @@
 'use strict' 
 
-// Вбудовані прототипи
+// Базовий синтакиси класу
 
-/* Всі вбудовані об’єкти слідують однаковому шаблону:
-Методи зберігаються у прототипі (Array.prototype, Object.prototype, Date.prototype та ін.).
-Сам об’єкт зберігає лише дані (елементи масиву, властивості об’єкта, дату).
-Примітиви також зберігають методи у прототипах об’єктів-обгорток: Number.prototype, String.prototype and Boolean.prototype. Тільки undefined та null не мають об’єктів-обгорток.
-Вбудовані прототипи можуть бути змінені або доповнені новими методами. Але їх не рекомендується змінювати. Єдиний допустимий випадок, мабуть, коли ми додаємо якийсь новий стандарт, котрий ще не підтримується рушієм JavaScript */
+/* Основний синтаксис класу виглядає так:
 
-//Taks
+class MyClass {
+  prop = value; // властивість
 
-//1 Додайте до прототипу всіх функцій метод defer(ms), що запускає функцію після ms мілісекунд.
+  constructor(...) { // конструктор
+    // ...
+  }
 
-Function.prototype.defer = function(ms) {
-    setTimeout(this, ms);
+  method(...) {} // метод
+
+  get something(...) {} // геттер метод
+  set something(...) {} // сеттер метод
+
+  [Symbol.iterator]() {} // метод з обчисленим ім’ям (символом в цьому випадку)
+  // ...
 }
+MyClass технічно є функцією (тою, яку ми задаємо як constructor), тоді як методи, геттери та сеттери записуються до MyClass.prototype.
 
-function f() {
-    alert("Привіт!");
+У наступних розділах ми дізнаємося більше про класи, включаючи наслідування та інші особливості. */
+
+//Tasks
+
+//1
+class Clock {
+    constructor({ template }) {
+      this.template = template;
+    }
+  
+    render() {
+      let date = new Date();
+  
+      let hours = date.getHours();
+      if (hours < 10) hours = '0' + hours;
+  
+      let mins = date.getMinutes();
+      if (mins < 10) mins = '0' + mins;
+  
+      let secs = date.getSeconds();
+      if (secs < 10) secs = '0' + secs;
+  
+      let output = this.template
+        .replace('h', hours)
+        .replace('m', mins)
+        .replace('s', secs);
+  
+      console.log(output);
+    }
+  
+    stop() {
+      clearInterval(this.timer);
+    }
+  
+    start() {
+      this.render();
+      this.timer = setInterval(() => this.render(), 1000);
+    }
   }
   
-f.defer(1000);
-
-//2 
-//Додати до прототипу всіх функцій метод defer(ms), що повертає обгортку, що затримує виклик на ms мілісекунд.
-
-Function.prototype.deferWrapper = function(ms) {
-    let f = this;
-
-    return function(...args) {
-        return setTimeout(() => (this, args), ms);
-    }
-}
+  
+  let clock = new Clock({template: 'h:m:s'});
+  clock.start();
