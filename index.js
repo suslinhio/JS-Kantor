@@ -1,66 +1,17 @@
 'use strict' 
 
-// Базовий синтакиси класу
+// Розширення класу
 
-/* Основний синтаксис класу виглядає так:
+/* Щоб розширити клас треба використовувати синтакс: class Child extends Parent:
+Це означає Child.prototype.__proto__ буде Parent.prototype, таким чином методи успадковуються.
+При перевизначенні конструктора:
+Ми повинні викликати батьківський конструктор super() в Child конструкторі перед використанням this.
+При перевизначенні іншого методу:
+Ми можемо використовувати super.method() в методі Child, щоб викликати за батьківський метод.
+Внутрішні деталі:
+Методи запам’ятовують їх клас/об’єкт у внутрішній властивості [[HomeObject]]. Ось як super знаходить батьківські методи.
+Так що це не безпечно копіювати метод з супер від одного об’єкта до іншого.
+Також:
 
-class MyClass {
-  prop = value; // властивість
-
-  constructor(...) { // конструктор
-    // ...
-  }
-
-  method(...) {} // метод
-
-  get something(...) {} // геттер метод
-  set something(...) {} // сеттер метод
-
-  [Symbol.iterator]() {} // метод з обчисленим ім’ям (символом в цьому випадку)
-  // ...
-}
-MyClass технічно є функцією (тою, яку ми задаємо як constructor), тоді як методи, геттери та сеттери записуються до MyClass.prototype.
-
-У наступних розділах ми дізнаємося більше про класи, включаючи наслідування та інші особливості. */
-
-//Tasks
-
-//1
-class Clock {
-    constructor({ template }) {
-      this.template = template;
-    }
-  
-    render() {
-      let date = new Date();
-  
-      let hours = date.getHours();
-      if (hours < 10) hours = '0' + hours;
-  
-      let mins = date.getMinutes();
-      if (mins < 10) mins = '0' + mins;
-  
-      let secs = date.getSeconds();
-      if (secs < 10) secs = '0' + secs;
-  
-      let output = this.template
-        .replace('h', hours)
-        .replace('m', mins)
-        .replace('s', secs);
-  
-      console.log(output);
-    }
-  
-    stop() {
-      clearInterval(this.timer);
-    }
-  
-    start() {
-      this.render();
-      this.timer = setInterval(() => this.render(), 1000);
-    }
-  }
-  
-  
-  let clock = new Clock({template: 'h:m:s'});
-  clock.start();
+Стрілочні функції не мають власного this або super, тому вони прозоро вписуються в навколишній контекст.
+ */
